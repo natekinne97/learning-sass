@@ -1,0 +1,12 @@
+.home {
+  height: 100%;
+  padding-top: 40vh;
+  overflow: hidden;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-align: center;
+  background: url("../../img/model-1.jpg");
+  background-size: cover;
+}
+/*# sourceMappingURL=home.css.map */
