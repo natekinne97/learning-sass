@@ -1,26 +1,21 @@
+require('dotenv').config();
 const nodemailer = require('nodemailer');
 const express = require('express');
 const bodyParser = express.json();
-
+const {API_KEY, LIST_ID, EMAIL, EMAIL_PASSWORD} = require('../config');
 const router = express.Router();
 const Mailchimp = require('mailchimp-api-v3');
-
-// move these to the env
-const apiKey = "32b5ef564243ebc9dd2ee3c7e3f11809-us19";
-const listId = "7d04d15484";
 
 // create transporter as a global
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth:{
-        user: 'mysterian.design@gmail.com',
-        pass: 'DesignIt19'
+        user: EMAIL,
+        pass: EMAIL_PASSWORD
     }
 });
 
 // options for mailchimp
-
-
 
 router.get('/', (req, res, next)=>{
     console.log('i am working');
@@ -30,22 +25,21 @@ router.get('/', (req, res, next)=>{
 // send the email
 router.route('/')
     .post(bodyParser, (req, res, next)=>{
-        console.log('getting email')
-        console.log(req.body, 'params');
+        
         const {email} = req.body;
-        console.log(email, 'email')
+        
 
         // email options for nodemailer
         const mailOptions = {
-          from: "mysterian.design@gmail.com",
+          from: EMAIL,
           to: email,
           subject: "Thanks for subscribing",
           text: "Thanks for subscribing to the mysterian news letter",
         };
         // mailchimp setup
-        const mailchimp = new Mailchimp(apiKey);
+        const mailchimp = new Mailchimp(API_KEY);
         // send the data to mailchimp
-        mailchimp.post(`lists/${listId}`, {
+        mailchimp.post(`lists/${LIST_ID}`, {
             members: [{
                 email_address: email,
                 status: 'subscribed'
